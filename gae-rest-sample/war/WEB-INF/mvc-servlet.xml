@@ -5,18 +5,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- Scans within the base package of the application for @Components to configure as beans -->
+	<!--
+		Scans within the base package of the application for @Components to
+		configure as beans
+	-->
 	<context:component-scan base-package="com.commons.rest" />
 
 	<bean id="contentNegotiatingViewResolver"
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="#{T(org.springframework.core.Ordered).HIGHEST_PRECEDENCE}">
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+		p:order="#{T(org.springframework.core.Ordered).HIGHEST_PRECEDENCE}">
 		<property name="mediaTypes">
 			<map>
 				<entry key="xml" value="application/xml" />
 				<entry key="js" value="text/javascript" />
+				<entry key="html" value="text/html" />
 			</map>
 		</property>
-		</bean>
+	</bean>
 
 	<bean id="marshallingViewResolver" class="com.commons.rest.view.SingleViewViewResolver"
 		p:order="#{contentNegotiatingViewResolver.order+1}">
@@ -29,10 +34,15 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="toStringViewResolver" class="com.commons.rest.view.SingleViewViewResolver" p:order="#{marshallingViewResolver.order+1}">
+	<bean id="toStringViewResolver" class="com.commons.rest.view.SingleViewViewResolver"
+		p:order="#{marshallingViewResolver.order+1}">
 		<constructor-arg>
 			<bean class="com.commons.rest.view.ToStringView" p:contentType="text/javascript" />
 		</constructor-arg>
 	</bean>
+
+	<bean id="urlBasedViewRewsolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:suffix=".jsp" p:order="#{toStringViewResolver.order+1}" />
 
 </beans>

@@ -11,7 +11,7 @@ public class RestClientSample {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setMessageConverters(new HttpMessageConverter[]{new JsonHttpMessageConverter()});
 
-		JSONObject result = restTemplate.getForObject("http://quatsch232.appspot.com/rest/users/.js", JSONObject.class);
+		JSONObject result = restTemplate.getForObject("http://quatsch232.appspot.com/users/.js", JSONObject.class);
 
 		JSONArray aresult = result.getJSONArray("payload");
 		for (int x=0; x<aresult.length(); ++x) {
